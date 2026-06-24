@@ -1,0 +1,15 @@
+# Ambienti virtuali
+venv/
+env/
+
+# File di sistema macOS
+.DS_Store
+
+# Cache di Python e pytest
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Dati temporanei e file locali
+outputs/gui_temp/
+data/input_dataset.csv
