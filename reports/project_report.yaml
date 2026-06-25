@@ -1,0 +1,190 @@
+# ============================================================
+# Template report progetto
+# Classificazione binaria con feature reduction QUBO
+# Formato: YAML
+#
+# Compilare tutti i campi applicabili.
+# Usare null quando un dato non è disponibile.
+# Non inserire qui prompt completi o risposte degli LLM:
+# saranno raccolti in un template separato.
+# Utilizzare l'inglese per le risposte testuali
+# ============================================================
+
+schema_version: "1.0"
+
+group_id: "G08"
+repository_url: "https://github.com/zorenm7/isw-qubo-classification-G08"
+submission_date: "2026-06-30"
+
+students:
+  - student_id: "60/61/66480"        #Matricola completa
+    role_in_project:
+      - "preprocessing"
+      - "feature_selection"
+      - "classification"
+      - "testing"
+      - "documentation"
+      - "gui"
+  - student_id: "60/61/66463"        #Matricola completa
+    role_in_project:
+      - "preprocessing"
+      - "feature_selection"
+      - "classification"
+      - "testing"
+      - "documentation"
+      - "gui"
+
+team_work:
+  work_distribution:
+    design_percent: 50
+    preprocessing_percent: 50
+    qubo_feature_selection_percent: 50
+    classification_percent: 50
+    testing_percent: 50
+    gui_percent: 50
+    documentation_percent: 50
+  collaboration_mode:
+    # valori suggeriti: "pair_programming", "divisione_per_moduli", "mista"
+    type: "pair_programming"
+    notes: "We mostly used pair programming sessions with screen sharing to design prompts and evaluate LLM outputs together."
+    remote_collaboration_perc: 90   # Percentuale di lavoro in call (0-100)
+  estimated_total_hours:
+    student_1_hours: 15
+    student_2_hours: 15
+    total_group_hours: 30
+
+initial_context:
+  prior_experience:
+    # valori da usare: "none", "basic", "intermediate", "advanced"
+    python: "intermediate"
+    pandas_numpy: "intermediate"
+    scikit_learn: "basic"
+    machine_learning: "basic"
+    classification: "basic"
+    feature_selection: "intermediate"
+    optimization: "basic"
+    QUBO: "none"
+    git_github: "intermediate"
+  initial_confidence:
+    # scala 1-5: 1 = per nulla sicuri, 5 = molto sicuri
+    python_project_development: 4
+    qubo_formulation: 2
+    machine_learning: 3
+    debugging: 4
+    validating_llm_outputs: 4
+
+design_choices:
+  correlation_computation: "We utilized Spearman rank correlation to capture monotonic, non-linear relationships between features and the target variable, avoiding Pearson's strict linearity assumption."
+  QUBO_optimization_algorithm:
+    algorithm_name: "Simulated Annealing"
+    library_used: "dwave-neal"
+    reason_for_choice: "It provides an excellent heuristic approximation for solving dense QUBO matrices on classical hardware without requiring external API calls or quantum access."
+  classification_algorithm:
+    algorithm_name: "Random Forest, Logistic Regression, Gradient Boosting"
+    library_used: "scikit-learn"
+    reason_for_choice: "Random Forest was mandatory. We added Logistic Regression as a solid baseline and Gradient Boosting for its high performance on tabular datasets."
+  gui_development: "We chose Streamlit over Tkinter because it enables rapid prototyping of modern, responsive, data-driven web applications with minimal boilerplate code."
+  problems_encountered:
+    - problem: "TypeError during JSON serialization of final statistics (NumPy np.int8 types were not JSON serializable)."
+      solution: "We manually intercepted the NumPy array outputs from dimod/neal and explicitly cast them to standard Python native ints using list comprehensions before calling json.dump()."
+  notes: "The modular architecture allowed us to test each script individually before connecting them through the Streamlit interface."
+
+llm_usage_summary:
+  # Non inserire prompt o risposte complete: saranno raccolti separatamente.
+  llms_used:    # Inserire un record per ogni LLM usato
+    - name: "Gemini"
+      version: "3.1 Pro"
+      paid_subscription: "true"
+      usage_level_0_to_3:   # valori da 0 (non usato) a 3 (usatissimo)     
+        value: 2   
+  phases_where_llm_was_used:
+    requirements_understanding:
+      usage_level_0_to_3: 2
+      usefulness_1_to_5: 4
+      notes: "Used to clarify the mathematical structure of the QUBO matrix."
+    preprocessing:
+      usage_level_0_to_3: 3
+      usefulness_1_to_5: 5
+      notes: "Excellent at generating vectorized pandas operations."
+    qubo_formulation:
+      usage_level_0_to_3: 3
+      usefulness_1_to_5: 5
+      notes: "Crucial for writing the binary search logic for the alpha parameter."
+    optimizer_selection:
+      usage_level_0_to_3: 2
+      usefulness_1_to_5: 4
+      notes: "Suggested the use of dwave-neal for Simulated Annealing."
+    classifier_selection:
+      usage_level_0_to_3: 3
+      usefulness_1_to_5: 5
+      notes: "Provided clean boilerplate for scikit-learn models and metrics extraction."
+    debugging:
+      usage_level_0_to_3: 3
+      usefulness_1_to_5: 5
+      notes: "Very effective at explaining the pytest ModuleNotFoundError and the JSON serialization errors."
+    testing:
+      usage_level_0_to_3: 3
+      usefulness_1_to_5: 5
+      notes: "Generated a robust pytest suite using the tmp_path fixture."
+    documentation:
+      usage_level_0_to_3: 3
+      usefulness_1_to_5: 5
+      notes: "Drafted the README.md and formatted the CLI usage examples."
+    gui:
+      usage_level_0_to_3: 3
+      usefulness_1_to_5: 5
+      notes: "Generated the state-managed Streamlit application flawlessly."
+  estimated_llm_contribution:
+    percent_code_generated_or_suggested_by_llm: 90
+    percent_code_accepted_without_major_changes: 80
+    percent_documentation_generated_or_suggested_by_llm: 95
+  human_verification: 
+    # descrivere come il gruppo ha controllato gli output dell'LLM. (yes/partially/no)
+    methods_used:
+      - code_execution: "yes"
+      - automated_tests: "yes"
+      - critical_reading: "yes"
+      - comparison_with_other_llm: "no"
+    notes: "We heavily relied on the automated test suite to verify that the LLM's logic strictly respected the project specifications."
+  llm_misleading_outputs:
+    encountered: "yes"  # (yes/partially/no)
+    examples_count: 1   # number of cases
+    categories:     # rispondere con: yes/partially/no
+      wrong_python_code: "no"  
+      wrong_library_usage: "partially"
+      wrong_qubo_formulation: "no"
+      wrong_ml_methodology: "no"
+      hallucinated_api_or_function: "no"
+      other: "Type mismatch between NumPy output and standard JSON encoder"      # indicare quale/quali
+    impact_on_project: 1   # valori da 0 (nessuno) a 3 (fortissimo)     
+  llm_overall_assessment:  
+    productivity_improvement_1_to_5: 5
+    learning_support_1_to_5: 4
+    risk_of_overreliance_1_to_5: 3
+    trust_in_llm_outputs_1_to_5: 3
+    would_use_again: "yes"    # (yes/maybe/no)
+    notes: "Using LLMs via structured Prompt Engineering (Role, Task, Context, Constraints) drastically improved code quality and modularity."
+  most_useful_project_activity: "Implementing the automated test suite with pytest, which caught serialization issues early."
+  most_difficult_project_activity: "Translating the theoretical QUBO objective function into a working Python matrix optimized for Simulated Annealing."
+  main_lessons_learned:   # descrivere con una frase per ogni lezione appresa
+    - "Effective prompt engineering requires breaking down complex architectural requirements into smaller, modular requests."
+    - "LLMs are extremely powerful for syntax and structure, but developers must strictly supervise data types and environment configurations."
+  main_problems:
+    - problem: "ModuleNotFoundError during pytest execution due to the 'src' directory structure."
+      severity_1_to_5: 2
+      how_resolved: "Executed pytest via the Python module flag ('python -m pytest') to correctly include the project root in the system path."
+
+final_results:   # descrivere con una frase per ogni elemento che ritenete di citare
+  what_worked_well:
+    - "The binary search implementation for dynamically finding the alpha parameter in the QUBO formulation was highly efficient."
+    - "Streamlit seamlessly integrated with the backend modules to provide a clean and functional GUI."
+  what_did_not_work_well:
+    - "Initial direct generation of large chunks of code led to minor inconsistencies, requiring us to split prompts module by module."
+  main_benefit_of_using_llm: "Rapid generation of boilerplate code, test suites, and standard ML pipelines, allowing us to focus on the core QUBO logic."
+  main_problem_of_using_llm: "Subtle bugs related to library-specific types (e.g., NumPy vs Python base types) that the LLM did not anticipate in the first pass."
+  surprising_findings:
+    - "How well a complex quantum optimization algorithm (QUBO) can be simulated classically using Simulated Annealing on a standard laptop."
+  limitations_of_the_solution:
+    - "Simulated Annealing parameters (like the number of sweeps) are currently defaults; fine-tuning them could yield better energy minimums for the QUBO problem."
+  threats_to_validity_from_team_perspective:
+    - "The effectiveness of the selected features depends heavily on the initial dataset's quality and the robustness of the Spearman correlation for that specific domain."
