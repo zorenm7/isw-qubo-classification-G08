@@ -1,7 +1,9 @@
 # 🚀 QUBO-Optimized Binary Classification Pipeline
 
 **Software Engineering Project - A.Y. 2025/2026**
+
 **Group:** G08
+
 **Members:** 60/61/66480, 60/61/66463
 
 This repository hosts a complete Python-based Machine Learning pipeline developed for binary classification tasks (e.g., credit risk assessment). The distinctive feature of this software is the integration of a **Quadratic Unconstrained Binary Optimization (QUBO)** module to perform advanced dimensionality reduction.
