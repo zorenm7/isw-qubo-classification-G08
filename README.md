@@ -77,7 +77,7 @@ A comprehensive test suite is provided to automatically validate data integrity,
 
 To run the validation suite:
 
-    pytest tests/
+    pytest tests/ -v
 
 ---
 
